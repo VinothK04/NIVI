@@ -1,0 +1,1919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Love Story 💕</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Cormorant+Garamond:wght@300;400;600&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-pink: #ff1493;
+            --soft-pink: #ffb3d9;
+            --deep-red: #c41e3a;
+            --rose-gold: #b76e79;
+            --light-pink: #ffe4f0;
+            --cream: #fff5f7;
+            --gold: #ffd700;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background: linear-gradient(135deg, var(--cream) 0%, var(--light-pink) 50%, var(--soft-pink) 100%);
+            color: #2d1b1b;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Animated Background Hearts */
+        .floating-hearts {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 18px;
+            opacity: 0;
+            animation: float 15s infinite;
+            will-change: transform, opacity;
+        }
+
+        @keyframes float {
+            0% {
+                opacity: 0;
+                transform: translateY(100vh) rotate(0deg);
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.4;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100vh) rotate(360deg);
+            }
+        }
+
+        /* Sparkles */
+        .sparkles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--gold);
+            border-radius: 50%;
+            animation: sparkleAnim 3s infinite;
+        }
+
+        @keyframes sparkleAnim {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Header */
+        header {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 80px 20px 60px;
+            background: linear-gradient(180deg, rgba(255, 20, 147, 0.3) 0%, transparent 100%);
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 7rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary-pink), var(--deep-red), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            animation: titleGlow 3s ease-in-out infinite;
+            text-shadow: 0 0 30px rgba(255, 20, 147, 0.3);
+        }
+
+        @keyframes titleGlow {
+            0%, 100% {
+                filter: brightness(1);
+            }
+            50% {
+                filter: brightness(1.3);
+            }
+        }
+
+        .subtitle {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(1.5rem, 4vw, 3rem);
+            color: var(--deep-red);
+            margin-bottom: 10px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .date-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-pink), var(--deep-red));
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(255, 20, 147, 0.4);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            box-shadow: 0 5px 20px rgba(255, 20, 147, 0.2);
+            border-bottom: 3px solid var(--soft-pink);
+        }
+
+        .tab-btn {
+            background: linear-gradient(135deg, var(--soft-pink), var(--primary-pink));
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 20, 147, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab-btn.locked {
+            background: linear-gradient(135deg, #cccccc, #999999);
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .tab-btn.unlocked {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+        }
+
+        .tab-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .tab-btn:not(.locked):hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .tab-btn:not(.locked):hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 20, 147, 0.5);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--deep-red), var(--primary-pink));
+            transform: scale(1.1);
+            box-shadow: 0 10px 30px rgba(196, 30, 58, 0.5);
+        }
+
+        .lock-icon {
+            margin-left: 5px;
+        }
+
+        /* Quiz Modal/Popup */
+        .quiz-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .quiz-modal.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .quiz-content {
+            background: white;
+            padding: 50px;
+            border-radius: 30px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: slideUp 0.4s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .quiz-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--deep-red);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .quiz-question {
+            font-size: 1.5rem;
+            color: #2d1b1b;
+            margin-bottom: 30px;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .quiz-input {
+            width: 100%;
+            padding: 20px;
+            font-size: 1.3rem;
+            border: 3px solid var(--soft-pink);
+            border-radius: 15px;
+            font-family: 'Cormorant Garamond', serif;
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-input:focus {
+            outline: none;
+            border-color: var(--primary-pink);
+            box-shadow: 0 0 20px rgba(255, 20, 147, 0.3);
+        }
+
+        .quiz-btn {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary-pink), var(--deep-red));
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .quiz-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 20, 147, 0.5);
+        }
+
+        /* Animation Result Modal */
+        .result-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .result-modal.active {
+            display: flex;
+        }
+
+        .result-content {
+            text-align: center;
+            animation: zoomIn 0.5s ease-out;
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .result-image {
+            font-size: clamp(5rem, 20vw, 12rem);
+            margin-bottom: 30px;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-30px);
+            }
+        }
+
+        .result-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .result-subtext {
+            font-size: 1.5rem;
+            color: white;
+            opacity: 0.9;
+        }
+
+        /* Correct Answer - Romantic Animations */
+        .correct-animation {
+            animation: heartExplosion 1s ease-out;
+        }
+
+        @keyframes heartExplosion {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.5) rotate(10deg);
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        /* Wrong Answer - Angry Animations */
+        .wrong-animation {
+            animation: shake 0.5s ease-out;
+        }
+
+        @keyframes shake {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            25% {
+                transform: translateX(-20px) rotate(-5deg);
+            }
+            75% {
+                transform: translateX(20px) rotate(5deg);
+            }
+        }
+
+        /* Main Content */
+        .content-container {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Memory Cards */
+        .memory-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 50px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 60px rgba(255, 20, 147, 0.2);
+            border: 3px solid var(--soft-pink);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        /* shimmer removed for performance (Point 4) */
+
+        .memory-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 80px rgba(255, 20, 147, 0.3);
+            border-color: var(--primary-pink);
+        }
+
+        .memory-icon {
+            font-size: 3.2rem;
+            margin-bottom: 16px;
+            animation: floatIcon 3s infinite;
+            will-change: transform;
+        }
+
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0); }
+            50%       { transform: translateY(-8px); }
+        }
+
+        .memory-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--deep-red);
+            margin-bottom: 15px;
+        }
+
+        .memory-date {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5rem;
+            color: var(--primary-pink);
+            margin-bottom: 20px;
+        }
+
+        .memory-text {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            color: #4a3535;
+            position: relative;
+            z-index: 1;
+        }
+
+        .memory-text strong {
+            color: var(--deep-red);
+            font-weight: 600;
+        }
+
+        /* Photo Gallery Placeholder */
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .photo-placeholder {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, var(--light-pink), var(--soft-pink));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            box-shadow: 0 10px 30px rgba(255, 20, 147, 0.2);
+            transition: all 0.3s ease;
+            border: 3px solid white;
+        }
+
+        .photo-placeholder:hover {
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 15px 40px rgba(255, 20, 147, 0.4);
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding: 40px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, var(--primary-pink), var(--deep-red));
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) {
+            text-align: right;
+            padding-right: calc(50% + 50px);
+        }
+
+        .timeline-item:nth-child(even) {
+            text-align: left;
+            padding-left: calc(50% + 50px);
+        }
+
+        .timeline-dot {
+            position: absolute;
+            top: 0;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, var(--primary-pink), var(--deep-red));
+            border-radius: 50%;
+            border: 5px solid white;
+            box-shadow: 0 0 20px rgba(255, 20, 147, 0.6);
+            animation: dotPulse 2s infinite;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-dot {
+            right: calc(50% - 15px);
+        }
+
+        .timeline-item:nth-child(even) .timeline-dot {
+            left: calc(50% - 15px);
+        }
+
+        @keyframes dotPulse {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(255, 20, 147, 0.6);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(255, 20, 147, 1);
+            }
+        }
+
+        /* Love Counter */
+        .love-counter {
+            background: linear-gradient(135deg, var(--primary-pink), var(--deep-red));
+            color: white;
+            padding: 60px 40px;
+            border-radius: 30px;
+            text-align: center;
+            margin: 40px 0;
+            box-shadow: 0 20px 60px rgba(255, 20, 147, 0.4);
+        }
+
+        .counter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .counter-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 25px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .counter-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .counter-label {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Love Letter Section */
+        .love-letter {
+            background: white;
+            padding: 60px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid var(--primary-pink);
+            margin: 40px 0;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            line-height: 2;
+            color: #3a2a2a;
+            font-style: italic;
+        }
+
+        .love-letter::before {
+            content: '"';
+            font-size: 6rem;
+            color: var(--soft-pink);
+            line-height: 0;
+            margin-right: 10px;
+        }
+
+        /* Footer */
+        footer {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(180deg, transparent 0%, rgba(255, 20, 147, 0.2) 100%);
+            margin-top: 80px;
+        }
+
+        .footer-heart {
+            font-size: 4rem;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            25% {
+                transform: scale(1.2);
+            }
+            50% {
+                transform: scale(1);
+            }
+        }
+
+        .footer-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            color: var(--deep-red);
+            margin-top: 20px;
+        }
+
+        /* ── Responsive + Shaking Fix (Point 3 & 4) ── */
+        html { overflow-x: hidden; }
+
+        /* Prevent ANY element causing horizontal scroll / shake */
+        *, *::before, *::after { max-width: 100%; }
+
+        /* Stable nav – wraps cleanly, no overflow shake */
+        .nav-tabs {
+            padding: 12px 10px;
+            gap: 8px;
+        }
+        .tab-btn {
+            padding: 10px 16px;
+            font-size: 0.95rem;
+            white-space: nowrap;
+        }
+
+        /* Reduce card padding on all screens slightly (Point 4: size) */
+        .memory-card { padding: 30px 24px; margin-bottom: 24px; }
+        header { padding: 50px 16px 36px; }
+        .content-container { padding: 24px 14px; }
+        footer { padding: 40px 16px; margin-top: 40px; }
+        .love-counter { padding: 36px 20px; }
+        .love-letter { padding: 36px 24px; }
+
+        @media (max-width: 768px) {
+            h1 { font-size: clamp(2rem, 10vw, 3.5rem); }
+
+            .tab-btn { padding: 8px 12px; font-size: 0.85rem; }
+
+            .timeline::before { left: 16px; }
+            .timeline-item:nth-child(odd),
+            .timeline-item:nth-child(even) {
+                text-align: left;
+                padding-left: 48px;
+                padding-right: 0;
+            }
+            .timeline-item:nth-child(odd) .timeline-dot,
+            .timeline-item:nth-child(even) .timeline-dot { left: 2px; }
+
+            .memory-card { padding: 20px 14px; border-radius: 18px; }
+            .memory-title { font-size: 1.6rem; }
+            .memory-text { font-size: 1.1rem; }
+
+            .quiz-content { padding: 24px 16px; }
+            .quiz-title { font-size: 1.8rem; }
+            .quiz-question { font-size: 1.2rem; }
+            .result-image { font-size: 7rem; }
+            .result-text { font-size: 2rem; }
+
+            .video-grid { grid-template-columns: 1fr; gap: 16px; }
+            .video-card { padding: 12px; }
+
+            .slideshow-container { height: 260px; }
+            .slide img { height: 260px; }
+            .slide-placeholder { height: 260px !important; }
+            .slide-caption { font-size: 1.3rem; }
+            .slide-btn { width: 40px; height: 40px; font-size: 1.2rem; }
+
+            .love-counter { padding: 24px 12px; }
+            .counter-number { font-size: 2rem; }
+            .counter-grid { gap: 14px; }
+
+            .love-letter { padding: 20px 16px; font-size: 1.1rem; }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 2rem; }
+            .subtitle { font-size: 1.2rem; }
+            .date-badge { font-size: 0.95rem; padding: 8px 18px; }
+            .tab-btn { padding: 7px 10px; font-size: 0.8rem; }
+            .memory-card { padding: 16px 12px; }
+            .slideshow-container { height: 200px; }
+            .slide img { height: 200px; }
+            .slide-placeholder { height: 200px !important; }
+        }
+
+        /* Photo Slideshow Styles - FIXED */
+        .slideshow-container {
+            position: relative;
+            max-width: 100%;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #ffb3d9, #ff1493);
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+            height: 500px;
+        }
+
+        /* ALL slides stacked, hidden by default */
+        .slide {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Active slide fades in on top */
+        .slide.active {
+            opacity: 1;
+            pointer-events: auto;
+            z-index: 2;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            border-radius: 20px;
+            display: block;
+            background: linear-gradient(135deg, #ffe4f0, #ffb3d9);
+        }
+
+        .slide-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            color: white;
+            padding: 30px 20px 20px;
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+        }
+
+        .slide-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--deep-red);
+            border: none;
+            padding: 15px 20px;
+            font-size: 2rem;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            z-index: 10;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .slide-btn:hover {
+            background: var(--primary-pink);
+            color: white;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .slide-btn.prev {
+            left: 20px;
+        }
+
+        .slide-btn.next {
+            right: 20px;
+        }
+
+        .slide-indicators {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            z-index: 10;
+        }
+
+        .indicator {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid white;
+        }
+
+        .indicator:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: scale(1.2);
+        }
+
+        .indicator.active {
+            background: var(--primary-pink);
+            width: 30px;
+            border-radius: 10px;
+            border-color: var(--primary-pink);
+        }
+
+        /* Video Grid Styles */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .video-card {
+            background: linear-gradient(135deg, var(--light-pink), var(--soft-pink));
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 20, 147, 0.2);
+            transition: all 0.3s ease;
+            border: 3px solid white;
+        }
+
+        .video-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(255, 20, 147, 0.4);
+            border-color: var(--primary-pink);
+        }
+
+        .video-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--deep-red);
+            margin-top: 15px;
+            margin-bottom: 8px;
+        }
+
+        .video-description {
+            font-size: 1.1rem;
+            color: #4a3535;
+            line-height: 1.6;
+        }
+
+        /* Music Player Enhancements */
+        audio {
+            filter: sepia(20%) saturate(70%) hue-rotate(290deg) brightness(95%);
+        }
+
+        audio::-webkit-media-controls-panel {
+            background: linear-gradient(135deg, var(--soft-pink), var(--primary-pink));
+        }
+    </style>
+</head>
+<body>
+    <!-- Heart Burst Overlay (Point 1) -->
+    <div id="heartBurst" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:500;overflow:hidden;"></div>
+
+    <!-- Floating Hearts Background -->
+    <div class="floating-hearts" id="floatingHearts"></div>
+
+    <!-- Sparkles -->
+    <div class="sparkles" id="sparkles"></div>
+
+    <!-- Header -->
+    <header>
+        <h1>Our Love Story</h1>
+        <div class="subtitle">A Journey of Two Hearts</div>
+        <div class="date-badge">💝 February 14, 2026 💝</div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs">
+        <button class="tab-btn active" onclick="showTab('home')">🏠 Home</button>
+        <button class="tab-btn locked" id="btn-firstchat" onclick="attemptUnlock('firstchat')">💬 First Chat <span class="lock-icon">🔒</span></button>
+        <button class="tab-btn locked" id="btn-firstmeet" onclick="attemptUnlock('firstmeet')">👫 First Meeting <span class="lock-icon">🔒</span></button>
+        <button class="tab-btn locked" id="btn-firstcall" onclick="attemptUnlock('firstcall')">📞 First Call <span class="lock-icon">🔒</span></button>
+        <button class="tab-btn locked" id="btn-firstdate" onclick="attemptUnlock('firstdate')">🌹 First Date <span class="lock-icon">🔒</span></button>
+        <button class="tab-btn locked" id="btn-firstgift" onclick="attemptUnlock('firstgift')">🎁 First Gift <span class="lock-icon">🔒</span></button>
+        <button class="tab-btn locked" id="btn-timeline" onclick="attemptUnlock('timeline')">⏰ Timeline <span class="lock-icon">🔒</span></button>
+        <button class="tab-btn locked" id="btn-loveletter" onclick="attemptUnlock('loveletter')">💌 Love Letter <span class="lock-icon">🔒</span></button>
+        <button class="tab-btn locked" id="btn-photosvideos" onclick="attemptUnlock('photosvideos')">📸 Photos &amp; Videos <span class="lock-icon">🔒</span></button>
+    </nav>
+
+    <!-- Quiz Modal -->
+    <div class="quiz-modal" id="quizModal">
+        <div class="quiz-content">
+            <h2 class="quiz-title" id="quizTitle">💝 Answer to Unlock</h2>
+            <p class="quiz-question" id="quizQuestion">Question will appear here...</p>
+            <input type="text" class="quiz-input" id="quizInput" placeholder="Type your answer here...">
+            <button class="quiz-btn" onclick="checkAnswer()">Submit Answer 💕</button>
+        </div>
+    </div>
+
+    <!-- Result Modal (Correct/Wrong Animation) -->
+    <div class="result-modal" id="resultModal">
+        <div class="result-content">
+            <div class="result-image" id="resultImage">❤️</div>
+            <div class="result-text" id="resultText">Correct!</div>
+            <div class="result-subtext" id="resultSubtext">Unlocking your memory...</div>
+        </div>
+    </div>
+
+    <!-- Content Container -->
+    <div class="content-container">
+        <!-- Home Tab -->
+        <div id="home" class="tab-content active">
+            <div class="love-counter">
+                <h2 style="font-family: 'Playfair Display', serif; font-size: 3rem; margin-bottom: 20px;">Our Love in Numbers</h2>
+                <div class="counter-grid">
+                    <div class="counter-item">
+                        <div class="counter-number" id="daysCounter">0</div>
+                        <div class="counter-label">Days Together</div>
+                    </div>
+                    <div class="counter-item">
+                        <div class="counter-number" id="hoursCounter">0</div>
+                        <div class="counter-label">Hours of Love</div>
+                    </div>
+                    <div class="counter-item">
+                        <div class="counter-number" id="minutesCounter">0</div>
+                        <div class="counter-label">Beautiful Minutes</div>
+                    </div>
+                    <div class="counter-item">
+                        <div class="counter-number">∞</div>
+                        <div class="counter-label">Love Forever</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="memory-card">
+                <div class="memory-icon">💕</div>
+                <h2 class="memory-title">Welcome to Our Story</h2>
+                <p class="memory-text">
+                    Every great love story has a beginning, and ours is filled with countless beautiful moments that I cherish every single day. 
+                    This website is my gift to you - a digital journey through all our precious firsts. <strong>But there's a twist!</strong> 
+                    Each memory is locked, and only you have the keys. Answer the questions correctly to unlock each special moment we've shared together. 
+                    <strong>You are my everything, and I love you more than words can express.</strong> ❤️
+                </p>
+            </div>
+
+            <div class="memory-card" style="background: linear-gradient(135deg, var(--light-pink), var(--soft-pink)); border-color: var(--primary-pink);">
+                <h3 style="font-size: 2rem; color: var(--deep-red); margin-bottom: 20px;">🔐 How to Play</h3>
+                <p class="memory-text">
+                    1️⃣ Click on any locked tab above<br>
+                    2️⃣ Answer the question about our relationship<br>
+                    3️⃣ Get it right → See a romantic animation & unlock the memory! 💕<br>
+                    4️⃣ Get it wrong → Try again with a little encouragement! 😤<br><br>
+                    <strong>Ready to relive our beautiful journey? Start unlocking! 🗝️</strong>
+                </p>
+            </div>
+
+            <div class="photo-gallery">
+                <div class="photo-placeholder">📸</div>
+                <div class="photo-placeholder">🥰</div>
+                <div class="photo-placeholder">❤️</div>
+                <div class="photo-placeholder">💑</div>
+            </div>
+
+            <!-- Photo Slideshow with Music (locked) -->
+            <div id="section-photosvideos" style="position:relative;">
+            <div id="photosvideos-lock-overlay" style="position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(30,0,20,0.82);z-index:50;border-radius:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;">
+                <div style="font-size:5rem;">🔒</div>
+                <div style="font-family:'Playfair Display',serif;font-size:2rem;color:white;text-align:center;">Photos &amp; Videos Locked</div>
+                <div style="font-size:1.2rem;color:#ffb3d9;text-align:center;max-width:320px;">Click the <strong style="color:#ffd700;">📸 Photos &amp; Videos</strong> tab above to unlock!</div>
+            </div>
+            <!-- Photo Slideshow with Music -->
+            <div class="memory-card" style="margin-top: 40px; background: linear-gradient(135deg, var(--deep-red), var(--primary-pink)); color: white;">
+                <div style="text-align: center;">
+                    <div class="memory-icon" style="font-size: 5rem;">🎵</div>
+                    <h2 class="memory-title" style="color: white;">Our Favorite Moments</h2>
+                    <p style="font-size: 1.3rem; margin-bottom: 30px; opacity: 0.95;">Photo slideshow with our special song 💕</p>
+                </div>
+
+                <!-- Music Player - YouTube Embed -->
+                <div style="background: rgba(255, 255, 255, 0.2); padding: 30px; border-radius: 20px; backdrop-filter: blur(10px); margin-bottom: 30px;">
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <div style="font-size: 3rem; margin-bottom: 10px;"><iframe 
+                        width="20%" 
+                        height="150" 
+                        src="https://www.youtube.com/embed/GFzvgUFFh0Q?start=45&end=95" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen
+                        style="border-radius: 15px; box-shadow: 0 5px 25px rgba(0,0,0,0.4);">
+                    </iframe></div>
+                        <h3 style="font-size: 1.8rem; margin-bottom: 10px; color: white;">Kannalane</h3>
+                        <p style="font-size: 1.2rem; opacity: 0.9;">from Bombay - A.R. Rahman 💕</p>
+                    </div>
+                    
+                    <!-- YouTube Music Embed -->
+                                    <!-- Photo Slideshow -->
+                <div class="slideshow-container" id="slideshowContainer">
+                    <div class="slide">
+                        <img src="https://i.ibb.co/placeholder1.jpg" alt="Our Memory 1"
+                             onerror="this.style.display='none'; this.parentElement.querySelector('.slide-placeholder').style.display='flex';">
+                        <div class="slide-placeholder" style="display:none; width:100%; height:500px; background:linear-gradient(135deg,#c41e3a,#ff1493); align-items:center; justify-content:center; flex-direction:column; border-radius:20px;">
+                            <div style="font-size:6rem;">📸</div>
+                            <p style="color:white; font-size:1.5rem; margin-top:15px;">Add Your Photo Here</p>
+                        </div>
+                        <div class="slide-caption">First Date Magic ✨</div>
+                    </div>
+                    <div class="slide">
+                        <img src="https://i.ibb.co/placeholder2.jpg" alt="Our Memory 2"
+                             onerror="this.style.display='none'; this.parentElement.querySelector('.slide-placeholder').style.display='flex';">
+                        <div class="slide-placeholder" style="display:none; width:100%; height:500px; background:linear-gradient(135deg,#ff1493,#ffb3d9); align-items:center; justify-content:center; flex-direction:column; border-radius:20px;">
+                            <div style="font-size:6rem;">🥰</div>
+                            <p style="color:white; font-size:1.5rem; margin-top:15px;">Add Your Photo Here</p>
+                        </div>
+                        <div class="slide-caption">That Beautiful Smile 😍</div>
+                    </div>
+                    <div class="slide">
+                        <img src="https://i.ibb.co/placeholder3.jpg" alt="Our Memory 3"
+                             onerror="this.style.display='none'; this.parentElement.querySelector('.slide-placeholder').style.display='flex';">
+                        <div class="slide-placeholder" style="display:none; width:100%; height:500px; background:linear-gradient(135deg,#c41e3a,#b76e79); align-items:center; justify-content:center; flex-direction:column; border-radius:20px;">
+                            <div style="font-size:6rem;">💕</div>
+                            <p style="color:white; font-size:1.5rem; margin-top:15px;">Add Your Photo Here</p>
+                        </div>
+                        <div class="slide-caption">Together Forever 💕</div>
+                    </div>
+                    <div class="slide">
+                        <img src="https://i.ibb.co/placeholder4.jpg" alt="Our Memory 4"
+                             onerror="this.style.display='none'; this.parentElement.querySelector('.slide-placeholder').style.display='flex';">
+                        <div class="slide-placeholder" style="display:none; width:100%; height:500px; background:linear-gradient(135deg,#ff1493,#c41e3a); align-items:center; justify-content:center; flex-direction:column; border-radius:20px;">
+                            <div style="font-size:6rem;">🎉</div>
+                            <p style="color:white; font-size:1.5rem; margin-top:15px;">Add Your Photo Here</p>
+                        </div>
+                        <div class="slide-caption">Making Memories 🎉</div>
+                    </div>
+                    <div class="slide">
+                        <img src="https://i.ibb.co/placeholder5.jpg" alt="Our Memory 5"
+                             onerror="this.style.display='none'; this.parentElement.querySelector('.slide-placeholder').style.display='flex';">
+                        <div class="slide-placeholder" style="display:none; width:100%; height:500px; background:linear-gradient(135deg,#b76e79,#ff1493); align-items:center; justify-content:center; flex-direction:column; border-radius:20px;">
+                            <div style="font-size:6rem;">❤️</div>
+                            <p style="color:white; font-size:1.5rem; margin-top:15px;">Add Your Photo Here</p>
+                        </div>
+                        <div class="slide-caption">Love You Always ❤️</div>
+                    </div>
+
+                    <!-- Navigation Arrows -->
+                    <button class="slide-btn prev" onclick="changeSlide(-1)" style="z-index:10;">❮</button>
+                    <button class="slide-btn next" onclick="changeSlide(1)" style="z-index:10;">❯</button>
+
+                    <!-- Slide Indicators (0-based to match JS) -->
+                    <div class="slide-indicators" style="z-index:10; position:absolute; bottom:20px; left:50%; transform:translateX(-50%);">
+                        <span class="indicator active" onclick="currentSlide(0)"></span>
+                        <span class="indicator" onclick="currentSlide(1)"></span>
+                        <span class="indicator" onclick="currentSlide(2)"></span>
+                        <span class="indicator" onclick="currentSlide(3)"></span>
+                        <span class="indicator" onclick="currentSlide(4)"></span>
+                    </div>
+                </div>
+                    
+                    <p style="text-align: center; margin-top: 15px; font-size: 1rem; opacity: 0.8;">
+                        📝 <em>To change the song: Replace the YouTube video ID in the iframe src above!</em><br>
+                        <em>Example: src="https://www.youtube.com/embed/YOUR_VIDEO_ID"</em><br><br>
+                        <strong>Popular Tamil Love Songs (Video IDs):</strong><br>
+                        • Kannalane (Bombay) - hJP6cZFMRug<br>
+                        • Munbe Vaa - fGXp2Mjkq14<br>
+                        • Hosanna - ZGBPO5-uUKs<br>
+                        • Nenjukkul Peidhidum - vdB-8eLEW8g
+                    </p>
+                </div>
+
+                <p style="text-align: center; margin-top: 25px; font-size: 1.1rem; opacity: 0.9;">
+                    📝 <strong>HOW TO ADD YOUR PHOTOS:</strong><br><br>
+                    
+                    <strong>Method 1: Upload to ImgBB (FREE & EASY)</strong><br>
+                    1. Go to <a href="https://imgbb.com" target="_blank" style="color: white; text-decoration: underline;">imgbb.com</a><br>
+                    2. Click "Start uploading" and select your photo<br>
+                    3. After upload, right-click the image → "Copy image address"<br>
+                    4. Paste the URL in the img src above (replace https://i.ibb.co/placeholder1.jpg)<br><br>
+                    
+                    <strong>Method 2: Use Google Drive</strong><br>
+                    1. Upload photo to Google Drive<br>
+                    2. Right-click → Get link → Make it "Anyone with the link"<br>
+                    3. Copy the file ID from the URL<br>
+                    4. Use format: https://drive.google.com/uc?export=view&id=YOUR_FILE_ID<br><br>
+                    
+                    <strong>Method 3: Local Files (Only if opening HTML in browser)</strong><br>
+                    1. Put your photos in the SAME folder as this HTML file<br>
+                    2. Name them: photo1.jpg, photo2.jpg, photo3.jpg, etc.<br>
+                    3. Change src back to: src="photo1.jpg"
+                </p>
+            </div>
+
+            <!-- Fun Videos Section -->
+            <div class="memory-card" style="margin-top: 40px;">
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <div class="memory-icon" style="font-size: 5rem;">🎬</div>
+                    <h2 class="memory-title">Our Fun Videos</h2>
+                    <p style="font-size: 1.3rem; color: #4a3535;">All our silly, sweet, and memorable moments captured! 📹</p>
+                </div>
+
+                <!-- Video Grid - YouTube Embeds -->
+                <div class="video-grid">
+                    <!-- Video 1 -->
+                    <div class="video-card">
+                        <iframe 
+                            width="100%" 
+                            height="250" 
+                            src="https://www.youtube.com/embed/hJP6cZFMRug" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen
+                            style="border-radius: 15px;">
+                        </iframe>
+                        <div class="video-title">🎉 Kannalane - Bombay</div>
+                        <div class="video-description">Our romantic Tamil song! 😄</div>
+                    </div>
+
+                    <!-- Video 2 -->
+                    <div class="video-card">
+                        <iframe 
+                            width="100%" 
+                            height="250" 
+                            src="https://www.youtube.com/embed/fGXp2Mjkq14" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen
+                            style="border-radius: 15px;">
+                        </iframe>
+                        <div class="video-title">😂 Munbe Vaa</div>
+                        <div class="video-description">Such a beautiful melody! 🤣</div>
+                    </div>
+
+                    <!-- Video 3 -->
+                    <div class="video-card">
+                        <iframe 
+                            width="100%" 
+                            height="250" 
+                            src="https://www.youtube.com/embed/ZGBPO5-uUKs" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen
+                            style="border-radius: 15px;">
+                        </iframe>
+                        <div class="video-title">💝 Hosanna</div>
+                        <div class="video-description">This song reminds me of you 😍</div>
+                    </div>
+
+                    <!-- Video 4 -->
+                    <div class="video-card">
+                        <iframe 
+                            width="100%" 
+                            height="250" 
+                            src="https://www.youtube.com/embed/vdB-8eLEW8g" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen
+                            style="border-radius: 15px;">
+                        </iframe>
+                        <div class="video-title">🌟 Nenjukkul Peidhidum</div>
+                        <div class="video-description">One of my favorites! 🎊</div>
+                    </div>
+                </div>
+
+                <p style="text-align: center; margin-top: 30px; font-size: 1.1rem; color: #4a3535;">
+                    📝 <em>To change videos: Replace the YouTube video IDs in the iframe src!</em><br>
+                    <em>Example: src="https://www.youtube.com/embed/YOUR_VIDEO_ID"</em><br><br>
+                    <strong>How to get YouTube Video ID:</strong><br>
+                    1. Go to any YouTube video<br>
+                    2. Copy the URL (e.g., youtube.com/watch?v=<strong>hJP6cZFMRug</strong>)<br>
+                    3. The part after "v=" is your Video ID<br>
+                    4. Replace it in the iframe src above!
+                </p>
+            </div>
+            </div><!-- end section-photosvideos -->
+        </div>
+
+        <!-- First Chat Tab -->
+        <div id="firstchat" class="tab-content">
+            <div class="memory-card">
+                <div class="memory-icon">💬</div>
+                <h2 class="memory-title">The First Message</h2>
+                <div class="memory-date">📅 [Date of your first chat]</div>
+                <p class="memory-text">
+                    It all started with a simple message... Who knew that those first words we exchanged would lead to something so beautiful? 
+                    I remember being nervous, excited, and hoping you'd reply. <strong>And when you did, my heart skipped a beat.</strong> 
+                    That conversation sparked something magical between us, and I'm so grateful it did.
+                </p>
+                <div style="background: var(--light-pink); padding: 30px; border-radius: 20px; margin-top: 30px; border-left: 5px solid var(--primary-pink);">
+                    <p style="font-style: italic; font-size: 1.2rem;">
+                        💭 <strong>Our First Conversation:</strong><br><br>
+                        "Hey! 👋"<br>
+                        "Hi! How are you? 😊"<br>
+                        <em>[Replace with your real conversation]</em>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- First Meeting Tab -->
+        <div id="firstmeet" class="tab-content">
+            <div class="memory-card">
+                <div class="memory-icon">👫</div>
+                <h2 class="memory-title">The Day We Met</h2>
+                <div class="memory-date">📅 [Date you first met in person]</div>
+                <p class="memory-text">
+                    Nothing compares to the moment I first saw you in person. My heart was racing, my hands were shaking, 
+                    but the instant I saw your smile, all my nervousness melted away. <strong>You were even more beautiful than I imagined.</strong> 
+                    That day changed my life forever. From that moment, I knew you were someone truly special.
+                </p>
+                <div class="photo-gallery">
+                    <div class="photo-placeholder">📷</div>
+                    <div class="photo-placeholder">🤳</div>
+                    <div class="photo-placeholder">😍</div>
+                </div>
+                <div style="margin-top: 30px; padding: 25px; background: rgba(255, 255, 255, 0.5); border-radius: 15px;">
+                    <p style="font-size: 1.2rem;"><strong>📍 Where:</strong> [Add location - park, café, etc.]</p>
+                    <p style="font-size: 1.2rem; margin-top: 10px;"><strong>💭 What I Remember:</strong> Your smile, your laugh, the way you looked at me...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- First Call Tab -->
+        <div id="firstcall" class="tab-content">
+            <div class="memory-card">
+                <div class="memory-icon">📞</div>
+                <h2 class="memory-title">Our First Phone Call</h2>
+                <div class="memory-date">📅 [Date of your first call]</div>
+                <p class="memory-text">
+                    Hearing your voice for the first time over the phone was magical. <strong>I could have talked to you for hours</strong> 
+                    (and we did!). Your laugh, the way you spoke, the excitement in your voice - everything about that call made me fall for you even more. 
+                    I remember not wanting to hang up, finding any excuse to keep the conversation going just a little longer.
+                </p>
+                <div style="background: linear-gradient(135deg, var(--light-pink), var(--soft-pink)); padding: 40px; border-radius: 20px; margin-top: 30px; text-align: center;">
+                    <div style="font-size: 4rem; margin-bottom: 20px;">⏱️</div>
+                    <div style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--deep-red);">
+                        [Duration: e.g., "2 hours 37 minutes"]
+                    </div>
+                    <p style="margin-top: 15px; font-size: 1.2rem;">Of pure joy and connection</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- First Date Tab -->
+        <div id="firstdate" class="tab-content">
+            <div class="memory-card">
+                <div class="memory-icon">🌹</div>
+                <h2 class="memory-title">Our First Date</h2>
+                <div class="memory-date">📅 [Date of your first date]</div>
+                <p class="memory-text">
+                    This was the day I got to spend quality time with you, just the two of us. I planned everything perfectly because 
+                    I wanted it to be special for you. <strong>Every moment with you felt like a dream.</strong> The way you smiled, 
+                    the conversations we had, the connection we shared - it was all perfect. That's when I knew for certain that 
+                    you were the one I wanted to spend forever with.
+                </p>
+                <div style="margin-top: 30px;">
+                    <div style="background: var(--light-pink); padding: 30px; border-radius: 20px; margin-bottom: 20px;">
+                        <h3 style="color: var(--deep-red); font-size: 1.8rem; margin-bottom: 15px;">🗺️ Where We Went</h3>
+                        <p style="font-size: 1.3rem;">[Add details: restaurant, movie, walk in the park, etc.]</p>
+                    </div>
+                    <div style="background: var(--light-pink); padding: 30px; border-radius: 20px;">
+                        <h3 style="color: var(--deep-red); font-size: 1.8rem; margin-bottom: 15px;">✨ Special Moments</h3>
+                        <p style="font-size: 1.3rem;">[Add your favorite moments from the date]</p>
+                    </div>
+                </div>
+                <div class="photo-gallery" style="margin-top: 30px;">
+                    <div class="photo-placeholder">💑</div>
+                    <div class="photo-placeholder">🍽️</div>
+                    <div class="photo-placeholder">🌟</div>
+                    <div class="photo-placeholder">😘</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- First Gift Tab -->
+        <div id="firstgift" class="tab-content">
+            <div class="memory-card">
+                <div class="memory-icon">🎁</div>
+                <h2 class="memory-title">The First Gift</h2>
+                <div class="memory-date">📅 [Date you gave/received the first gift]</div>
+                <p class="memory-text">
+                    The first gift we exchanged was so much more than just an object - it was a symbol of our growing love and care for each other. 
+                    <strong>I put so much thought into choosing something that would make you smile,</strong> and seeing your reaction 
+                    when you opened it made my heart swell with happiness. Every gift since then carries the same love, 
+                    but this first one will always hold a special place in my heart.
+                </p>
+                <div style="background: linear-gradient(135deg, var(--soft-pink), var(--light-pink)); padding: 50px; border-radius: 30px; margin-top: 30px; text-align: center; border: 3px solid var(--primary-pink);">
+                    <div style="font-size: 6rem; margin-bottom: 20px;">🎀</div>
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--deep-red); margin-bottom: 15px;">
+                        [Name of the gift]
+                    </h3>
+                    <p style="font-size: 1.3rem; line-height: 1.8;">
+                        [Add details: Why you chose it, what it meant, her reaction, etc.]
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline Tab -->
+        <div id="timeline" class="tab-content">
+            <div class="memory-card">
+                <div class="memory-icon">⏰</div>
+                <h2 class="memory-title">Our Journey Together</h2>
+                <p class="memory-text" style="text-align: center; margin-bottom: 40px;">
+                    From the first message to this very moment - every step of our journey has been beautiful.
+                </p>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="memory-card" style="margin: 0;">
+                        <h3 style="font-size: 2rem; color: var(--deep-red); margin-bottom: 10px;">💬 First Chat</h3>
+                        <div class="memory-date">[Date]</div>
+                        <p>The beginning of our beautiful story...</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="memory-card" style="margin: 0;">
+                        <h3 style="font-size: 2rem; color: var(--deep-red); margin-bottom: 10px;">📞 First Call</h3>
+                        <div class="memory-date">[Date]</div>
+                        <p>Hearing your voice for the first time...</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="memory-card" style="margin: 0;">
+                        <h3 style="font-size: 2rem; color: var(--deep-red); margin-bottom: 10px;">👫 First Meeting</h3>
+                        <div class="memory-date">[Date]</div>
+                        <p>The day I saw your beautiful smile in person...</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="memory-card" style="margin: 0;">
+                        <h3 style="font-size: 2rem; color: var(--deep-red); margin-bottom: 10px;">🌹 First Date</h3>
+                        <div class="memory-date">[Date]</div>
+                        <p>Our first official date together...</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="memory-card" style="margin: 0;">
+                        <h3 style="font-size: 2rem; color: var(--deep-red); margin-bottom: 10px;">🎁 First Gift</h3>
+                        <div class="memory-date">[Date]</div>
+                        <p>A token of my love for you...</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="memory-card" style="margin: 0;">
+                        <h3 style="font-size: 2rem; color: var(--deep-red); margin-bottom: 10px;">💝 Today</h3>
+                        <div class="memory-date">February 14, 2026</div>
+                        <p>And our love story continues forever...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Love Letter Tab -->
+        <div id="loveletter" class="tab-content">
+            <div class="memory-card">
+                <div class="memory-icon">💌</div>
+                <h2 class="memory-title">A Letter From My Heart</h2>
+            </div>
+
+            <div class="love-letter">
+                My Dearest [Her Name],<br><br>
+
+                As I sit here creating this website for you, my heart is overflowing with love and gratitude. You have brought so much 
+                joy, light, and meaning into my life that I sometimes wonder what I did to deserve someone as wonderful as you.<br><br>
+
+                From our very first conversation, I knew there was special about you. Your kindness, your laugh, your smile - 
+                everything about you captivated me. And with each passing day, I fall more deeply in love with you.<br><br>
+
+                This website is more than just a collection of memories - it's a testament to our journey together, to every laugh we've shared, 
+                every moment we've cherished, and every dream we're building together. You are my best friend, my partner, my everything.<br><br>
+
+                Thank you for being you. Thank you for choosing me. Thank you for making every single day brighter just by being in it.<br><br>
+
+                I promise to love you, support you, make you laugh, and stand by your side through everything life brings our way. 
+                You are my forever, and I can't wait to create countless more beautiful memories with you.<br><br>
+
+                Happy Valentine's Day, my love. Here's to us, to our past, our present, and our beautiful future together.<br><br>
+
+                All my love, forever and always,<br>
+                <strong style="color: var(--deep-red); font-size: 1.6rem; font-style: normal;">[Your Name]</strong> ❤️
+            </div>
+
+            <div style="text-align: center; margin-top: 50px;">
+                <div style="font-size: 6rem; animation: heartbeat 1.5s infinite;">💕</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-heart">❤️</div>
+        <div class="footer-text">Forever & Always</div>
+        <p style="margin-top: 20px; font-size: 1.2rem; color: var(--deep-red);">Created with endless love on February 14, 2026</p>
+    </footer>
+
+    <script>
+        // Quiz Data - CUSTOMIZE THESE QUESTIONS AND ANSWERS!
+        const quizData = {
+            firstchat: {
+                question: "What was the first word I said to you in our very first chat? 💬",
+                answer: "hey", // Change this to the actual first word (case insensitive)
+                correctEmoji: "💕",
+                correctText: "Perfect! You Remember! 😍",
+                correctSubtext: "Our first conversation was magical...",
+                wrongEmoji: "😤",
+                wrongText: "Not Quite, My Love!",
+                wrongSubtext: "Think back to our very first message... Try again! 💭"
+            },
+            firstmeet: {
+                question: "What color was I wearing when we first met in person? 👕",
+                answer: "blue", // Change this
+                correctEmoji: "🥰",
+                correctText: "Yes! You noticed! 💙",
+                correctSubtext: "That day was unforgettable...",
+                wrongEmoji: "🤔",
+                wrongText: "Hmm, Not That Color!",
+                wrongSubtext: "Close your eyes and picture that moment... 💭"
+            },
+            firstcall: {
+                question: "How many hours did our first phone call last? (Just the number) ⏰",
+                answer: "2", // Change this to actual number
+                correctEmoji: "📞",
+                correctText: "Exactly Right! ⏱️",
+                correctSubtext: "Those were the best hours ever...",
+                wrongEmoji: "⏳",
+                wrongText: "Time Flies, But Not That Fast!",
+                wrongSubtext: "Think about how long we couldn't stop talking... 💭"
+            },
+            firstdate: {
+                question: "Where did we go on our first date? 🌹",
+                answer: "restaurant", // Change this (e.g., park, beach, cinema, restaurant name)
+                correctEmoji: "🌟",
+                correctText: "That's Right! 🎉",
+                correctSubtext: "What a perfect day that was...",
+                wrongEmoji: "🗺️",
+                wrongText: "Not Quite There!",
+                wrongSubtext: "Remember where we made our first memories together... 💭"
+            },
+            firstgift: {
+                question: "What was the first gift I gave you? 🎁",
+                answer: "flowers", // Change this (e.g., teddy bear, necklace, etc.)
+                correctEmoji: "🎀",
+                correctText: "You Remembered! 🎁",
+                correctSubtext: "Your smile when you opened it...",
+                wrongEmoji: "🎁",
+                wrongText: "Think Harder, Sweetheart!",
+                wrongSubtext: "It made you smile so bright... 💭"
+            },
+            timeline: {
+                question: "In which month did we start talking? 📅",
+                answer: "january", // Change this
+                correctEmoji: "⏰",
+                correctText: "Perfect Memory! 📆",
+                correctSubtext: "The beginning of our forever...",
+                wrongEmoji: "📅",
+                wrongText: "Close, But Not Quite!",
+                wrongSubtext: "Think about when our story began... 💭"
+            },
+            loveletter: {
+                question: "What's my favorite thing about you? (One word) ❤️",
+                answer: "smile",
+                correctEmoji: "💌",
+                correctText: "You Know Me So Well! 😍",
+                correctSubtext: "Reading my final letter for you...",
+                wrongEmoji: "💔",
+                wrongText: "There Are Many Things, But...",
+                wrongSubtext: "What lights up my world every single day? 💭"
+            },
+            photosvideos: {
+                question: "What is the pet name I call you? 💕",
+                answer: "love", // ← Change to YOUR pet name for her
+                correctEmoji: "📸",
+                correctText: "Unlocking Our Memories! 🎉",
+                correctSubtext: "Photos & videos of us together...",
+                wrongEmoji: "🙈",
+                wrongText: "Hmm, That's Not It!",
+                wrongSubtext: "Think about what I always call you... 💭"
+            }
+        };
+
+        // Track unlocked tabs
+        let unlockedTabs = new Set(['home']);
+        let currentQuizTab = null;
+
+        // Attempt to unlock a tab
+        function attemptUnlock(tabName) {
+            if (unlockedTabs.has(tabName)) {
+                showTab(tabName);
+            } else {
+                currentQuizTab = tabName;
+                showQuiz(tabName);
+            }
+        }
+
+        // Show quiz modal
+        function showQuiz(tabName) {
+            const quiz = quizData[tabName];
+            document.getElementById('quizQuestion').textContent = quiz.question;
+            document.getElementById('quizInput').value = '';
+            document.getElementById('quizModal').classList.add('active');
+            document.getElementById('quizInput').focus();
+        }
+
+        // Check answer
+        function checkAnswer() {
+            const userAnswer = document.getElementById('quizInput').value.trim().toLowerCase();
+            const quiz = quizData[currentQuizTab];
+            const correctAnswer = quiz.answer.toLowerCase();
+
+            // Close quiz modal
+            document.getElementById('quizModal').classList.remove('active');
+
+            if (userAnswer === correctAnswer) {
+                // Correct answer!
+                showResult(true, quiz);
+                setTimeout(() => {
+                    unlockTab(currentQuizTab);
+                }, 3000);
+            } else {
+                // Wrong answer
+                showResult(false, quiz);
+                setTimeout(() => {
+                    document.getElementById('resultModal').classList.remove('active');
+                }, 3000);
+            }
+        }
+
+        // Show result animation
+        function showResult(isCorrect, quiz) {
+            const resultModal = document.getElementById('resultModal');
+            const resultImage = document.getElementById('resultImage');
+            const resultText = document.getElementById('resultText');
+            const resultSubtext = document.getElementById('resultSubtext');
+
+            if (isCorrect) {
+                resultImage.textContent = quiz.correctEmoji;
+                resultText.textContent = quiz.correctText;
+                resultSubtext.textContent = quiz.correctSubtext;
+                resultImage.className = 'result-image correct-animation';
+            } else {
+                resultImage.textContent = quiz.wrongEmoji;
+                resultText.textContent = quiz.wrongText;
+                resultSubtext.textContent = quiz.wrongSubtext;
+                resultImage.className = 'result-image wrong-animation';
+            }
+
+            resultModal.classList.add('active');
+        }
+
+        // Unlock tab
+        function unlockTab(tabName) {
+            unlockedTabs.add(tabName);
+            const btn = document.getElementById(`btn-${tabName}`);
+            if (btn) {
+                btn.classList.remove('locked');
+                btn.classList.add('unlocked');
+                const lock = btn.querySelector('.lock-icon');
+                if (lock) lock.textContent = '🔓';
+            }
+            // Hide the photos/videos section overlay if unlocked
+            if (tabName === 'photosvideos') {
+                const overlay = document.getElementById('photosvideos-lock-overlay');
+                if (overlay) {
+                    overlay.style.transition = 'opacity 0.5s';
+                    overlay.style.opacity = '0';
+                    setTimeout(() => overlay.style.display = 'none', 500);
+                }
+                document.getElementById('resultModal').classList.remove('active');
+                // Stay on home tab, just reveal section
+                burstHearts();
+                return;
+            }
+            // Hide result and show tab
+            document.getElementById('resultModal').classList.remove('active');
+            showTab(tabName);
+        }
+
+        // Show tab
+        function showTab(tabName) {
+            const allTabs = document.querySelectorAll('.tab-content');
+            allTabs.forEach(tab => tab.classList.remove('active'));
+            const allBtns = document.querySelectorAll('.tab-btn');
+            allBtns.forEach(btn => btn.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            const activeBtn = tabName === 'home'
+                ? document.querySelector('.tab-btn')
+                : document.getElementById(`btn-${tabName}`);
+            if (activeBtn) activeBtn.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            burstHearts(); // ← Point 1: heart burst on every tab switch
+        }
+
+        // ── Point 1: Heart burst animation ──
+        function burstHearts() {
+            const container = document.getElementById('heartBurst');
+            if (!container) return;
+            container.innerHTML = '';
+            container.style.display = 'block';
+            const emojis = ['❤️','💕','💖','💗','💓','💝','💘','🌹','✨','💫'];
+            const count = window.innerWidth < 480 ? 18 : 30;
+            for (let i = 0; i < count; i++) {
+                const el = document.createElement('div');
+                el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                const size = Math.random() * 22 + 14;
+                const startX = Math.random() * 100;
+                const delay = Math.random() * 0.6;
+                const dur = Math.random() * 1.2 + 1.0;
+                el.style.cssText = `
+                    position:absolute;
+                    left:${startX}%;
+                    bottom:-60px;
+                    font-size:${size}px;
+                    opacity:0;
+                    animation: burstFloat ${dur}s ${delay}s ease-out forwards;
+                    pointer-events:none;
+                `;
+                container.appendChild(el);
+            }
+            // Inject keyframe once
+            if (!document.getElementById('burstStyle')) {
+                const s = document.createElement('style');
+                s.id = 'burstStyle';
+                s.textContent = `
+                    @keyframes burstFloat {
+                        0%   { transform: translateY(0)   rotate(0deg);   opacity:0; }
+                        15%  { opacity: 1; }
+                        80%  { opacity: 0.7; }
+                        100% { transform: translateY(-85vh) rotate(360deg); opacity:0; }
+                    }
+                `;
+                document.head.appendChild(s);
+            }
+            setTimeout(() => {
+                container.style.display = 'none';
+                container.innerHTML = '';
+            }, 2800);
+        }
+
+        // Allow Enter key to submit quiz
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('quizInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    checkAnswer();
+                }
+            });
+        });
+
+        // Generate floating hearts
+        function createFloatingHearts() {
+            const container = document.getElementById('floatingHearts');
+            const hearts = ['❤️', '💕', '💖', '💗', '💓', '💝', '💘'];
+            
+            for (let i = 0; i < 12; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 15 + 's';
+                heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                container.appendChild(heart);
+            }
+        }
+
+        // Generate sparkles
+        function createSparkles() {
+            const container = document.getElementById('sparkles');
+            
+            for (let i = 0; i < 15; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = Math.random() * 100 + '%';
+                sparkle.style.top = Math.random() * 100 + '%';
+                sparkle.style.animationDelay = Math.random() * 3 + 's';
+                container.appendChild(sparkle);
+            }
+        }
+
+        // Love Counter
+        function updateCounters() {
+            // CHANGE THIS to your actual start date
+            const startDate = new Date('2024-01-01'); // ← UPDATE THIS!
+            const now = new Date();
+            
+            const diff = now - startDate;
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor(diff / (1000 * 60));
+            
+            document.getElementById('daysCounter').textContent = days.toLocaleString();
+            document.getElementById('hoursCounter').textContent = hours.toLocaleString();
+            document.getElementById('minutesCounter').textContent = minutes.toLocaleString();
+        }
+
+        // Animate counters
+        function animateCounters() {
+            const counters = document.querySelectorAll('.counter-number');
+            counters.forEach(counter => {
+                if (counter.textContent !== '∞') {
+                    const target = parseInt(counter.textContent.replace(/,/g, ''));
+                    let current = 0;
+                    const increment = target / 100;
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= target) {
+                            counter.textContent = target.toLocaleString();
+                            clearInterval(timer);
+                        } else {
+                            counter.textContent = Math.floor(current).toLocaleString();
+                        }
+                    }, 20);
+                }
+            });
+        }
+
+        // Initialize
+        window.addEventListener('load', () => {
+            createFloatingHearts();
+            createSparkles();
+            updateCounters();
+            setTimeout(animateCounters, 500);
+            startSlideshow();
+            setTimeout(burstHearts, 300); // ← burst on first load
+        });
+
+        setInterval(updateCounters, 60000);
+
+        // ========== SLIDESHOW FUNCTIONS - FIXED ==========
+        let currentSlideIndex = 0; // 0-based index
+        let slideshowTimer;
+        let isTransitioning = false; // prevent rapid clicking bugs
+
+        function startSlideshow() {
+            // Scope slides ONLY inside the slideshow container
+            const container = document.getElementById('slideshowContainer');
+            if (!container) return;
+            const slides = container.querySelectorAll('.slide');
+            if (slides.length === 0) return;
+
+            // Set first slide active
+            slides[0].classList.add('active');
+            updateIndicators(0);
+
+            // Auto-advance every 4 seconds
+            slideshowTimer = setInterval(() => {
+                autoNextSlide();
+            }, 4000);
+        }
+
+        function autoNextSlide() {
+            const container = document.getElementById('slideshowContainer');
+            if (!container) return;
+            const slides = container.querySelectorAll('.slide');
+            let next = (currentSlideIndex + 1) % slides.length; // modulo = clean loop, no blank flash
+            goToSlide(next);
+        }
+
+        function changeSlide(direction) {
+            if (isTransitioning) return; // ignore rapid clicks during transition
+            clearInterval(slideshowTimer);
+
+            const container = document.getElementById('slideshowContainer');
+            const slides = container.querySelectorAll('.slide');
+            let next = (currentSlideIndex + direction + slides.length) % slides.length;
+            goToSlide(next);
+
+            // Restart auto-advance
+            slideshowTimer = setInterval(() => {
+                autoNextSlide();
+            }, 4000);
+        }
+
+        function currentSlide(index) {
+            if (isTransitioning) return;
+            clearInterval(slideshowTimer);
+            goToSlide(index);
+            slideshowTimer = setInterval(() => {
+                autoNextSlide();
+            }, 4000);
+        }
+
+        function goToSlide(index) {
+            const container = document.getElementById('slideshowContainer');
+            if (!container) return;
+            const slides = container.querySelectorAll('.slide');
+            if (slides.length === 0) return;
+
+            // Clamp index just in case
+            index = ((index % slides.length) + slides.length) % slides.length;
+
+            isTransitioning = true;
+
+            // Remove active from current
+            slides[currentSlideIndex].classList.remove('active');
+
+            // Add active to next
+            slides[index].classList.add('active');
+
+            // Update dots
+            updateIndicators(index);
+
+            currentSlideIndex = index;
+
+            // Allow next transition after CSS fade completes (0.8s)
+            setTimeout(() => {
+                isTransitioning = false;
+            }, 800);
+        }
+
+        function updateIndicators(index) {
+            const indicators = document.querySelectorAll('.indicator');
+            indicators.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+        }
+    </script>
+</body>
+</html>
