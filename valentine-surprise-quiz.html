@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -44,10 +44,9 @@
 
         .heart {
             position: absolute;
-            font-size: 18px;
+            font-size: 20px;
             opacity: 0;
             animation: float 15s infinite;
-            will-change: transform, opacity;
         }
 
         @keyframes float {
@@ -370,7 +369,7 @@
         }
 
         .result-image {
-            font-size: clamp(5rem, 20vw, 12rem);
+            font-size: 15rem;
             margin-bottom: 30px;
             animation: bounce 1s infinite;
         }
@@ -470,10 +469,30 @@
             box-shadow: 0 20px 60px rgba(255, 20, 147, 0.2);
             border: 3px solid var(--soft-pink);
             position: relative;
-            transition: all 0.3s ease;
+            overflow: hidden;
+            transition: all 0.4s ease;
         }
 
-        /* shimmer removed for performance (Point 4) */
+        .memory-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 20, 147, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            }
+            100% {
+                transform: translateX(100%) translateY(100%) rotate(45deg);
+            }
+        }
 
         .memory-card:hover {
             transform: translateY(-10px);
@@ -482,15 +501,18 @@
         }
 
         .memory-icon {
-            font-size: 3.2rem;
-            margin-bottom: 16px;
-            animation: floatIcon 3s infinite;
-            will-change: transform;
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: floatIcon 2s infinite;
         }
 
         @keyframes floatIcon {
-            0%, 100% { transform: translateY(0); }
-            50%       { transform: translateY(-8px); }
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
         }
 
         .memory-title {
@@ -702,81 +724,43 @@
             margin-top: 20px;
         }
 
-        /* ── Responsive + Shaking Fix (Point 3 & 4) ── */
-        html { overflow-x: hidden; }
-
-        /* Prevent ANY element causing horizontal scroll / shake */
-        *, *::before, *::after { max-width: 100%; }
-
-        /* Stable nav – wraps cleanly, no overflow shake */
-        .nav-tabs {
-            padding: 12px 10px;
-            gap: 8px;
-        }
-        .tab-btn {
-            padding: 10px 16px;
-            font-size: 0.95rem;
-            white-space: nowrap;
-        }
-
-        /* Reduce card padding on all screens slightly (Point 4: size) */
-        .memory-card { padding: 30px 24px; margin-bottom: 24px; }
-        header { padding: 50px 16px 36px; }
-        .content-container { padding: 24px 14px; }
-        footer { padding: 40px 16px; margin-top: 40px; }
-        .love-counter { padding: 36px 20px; }
-        .love-letter { padding: 36px 24px; }
-
+        /* Responsive */
         @media (max-width: 768px) {
-            h1 { font-size: clamp(2rem, 10vw, 3.5rem); }
+            .timeline::before {
+                left: 20px;
+            }
 
-            .tab-btn { padding: 8px 12px; font-size: 0.85rem; }
-
-            .timeline::before { left: 16px; }
             .timeline-item:nth-child(odd),
             .timeline-item:nth-child(even) {
                 text-align: left;
-                padding-left: 48px;
+                padding-left: 60px;
                 padding-right: 0;
             }
+
             .timeline-item:nth-child(odd) .timeline-dot,
-            .timeline-item:nth-child(even) .timeline-dot { left: 2px; }
+            .timeline-item:nth-child(even) .timeline-dot {
+                left: 5px;
+            }
 
-            .memory-card { padding: 20px 14px; border-radius: 18px; }
-            .memory-title { font-size: 1.6rem; }
-            .memory-text { font-size: 1.1rem; }
+            .memory-card {
+                padding: 30px 20px;
+            }
 
-            .quiz-content { padding: 24px 16px; }
-            .quiz-title { font-size: 1.8rem; }
-            .quiz-question { font-size: 1.2rem; }
-            .result-image { font-size: 7rem; }
-            .result-text { font-size: 2rem; }
+            h1 {
+                font-size: 3rem;
+            }
 
-            .video-grid { grid-template-columns: 1fr; gap: 16px; }
-            .video-card { padding: 12px; }
+            .quiz-content {
+                padding: 30px 20px;
+            }
 
-            .slideshow-container { height: 260px; }
-            .slide img { height: 260px; }
-            .slide-placeholder { height: 260px !important; }
-            .slide-caption { font-size: 1.3rem; }
-            .slide-btn { width: 40px; height: 40px; font-size: 1.2rem; }
+            .result-image {
+                font-size: 10rem;
+            }
 
-            .love-counter { padding: 24px 12px; }
-            .counter-number { font-size: 2rem; }
-            .counter-grid { gap: 14px; }
-
-            .love-letter { padding: 20px 16px; font-size: 1.1rem; }
-        }
-
-        @media (max-width: 480px) {
-            h1 { font-size: 2rem; }
-            .subtitle { font-size: 1.2rem; }
-            .date-badge { font-size: 0.95rem; padding: 8px 18px; }
-            .tab-btn { padding: 7px 10px; font-size: 0.8rem; }
-            .memory-card { padding: 16px 12px; }
-            .slideshow-container { height: 200px; }
-            .slide img { height: 200px; }
-            .slide-placeholder { height: 200px !important; }
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* Photo Slideshow Styles - FIXED */
@@ -949,9 +933,8 @@
     </style>
 </head>
 <body>
-    <!-- Heart Burst Overlay (Point 1) -->
-    <div id="heartBurst" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:500;overflow:hidden;"></div>
-
+    <!-- Heart Burst Overlay -->
+    <div id="heartBurst" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9000;overflow:hidden;"></div>
     <!-- Floating Hearts Background -->
     <div class="floating-hearts" id="floatingHearts"></div>
 
@@ -975,7 +958,6 @@
         <button class="tab-btn locked" id="btn-firstgift" onclick="attemptUnlock('firstgift')">🎁 First Gift <span class="lock-icon">🔒</span></button>
         <button class="tab-btn locked" id="btn-timeline" onclick="attemptUnlock('timeline')">⏰ Timeline <span class="lock-icon">🔒</span></button>
         <button class="tab-btn locked" id="btn-loveletter" onclick="attemptUnlock('loveletter')">💌 Love Letter <span class="lock-icon">🔒</span></button>
-        <button class="tab-btn locked" id="btn-photosvideos" onclick="attemptUnlock('photosvideos')">📸 Photos &amp; Videos <span class="lock-icon">🔒</span></button>
     </nav>
 
     <!-- Quiz Modal -->
@@ -1052,13 +1034,16 @@
                 <div class="photo-placeholder">💑</div>
             </div>
 
-            <!-- Photo Slideshow with Music (locked) -->
-            <div id="section-photosvideos" style="position:relative;">
-            <div id="photosvideos-lock-overlay" style="position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(30,0,20,0.82);z-index:50;border-radius:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;">
-                <div style="font-size:5rem;">🔒</div>
-                <div style="font-family:'Playfair Display',serif;font-size:2rem;color:white;text-align:center;">Photos &amp; Videos Locked</div>
-                <div style="font-size:1.2rem;color:#ffb3d9;text-align:center;max-width:320px;">Click the <strong style="color:#ffd700;">📸 Photos &amp; Videos</strong> tab above to unlock!</div>
-            </div>
+            <!-- Photos & Videos section - unlocks as separate tab -->
+            <div id="photosvideos-locked-hint" style="background:linear-gradient(135deg,#2d0a1a,#6b1230);border-radius:24px;padding:50px 30px;text-align:center;margin-top:40px;">
+                <div style="font-size:5rem;margin-bottom:16px;">🔒</div>
+                <div style="font-family:'Playfair Display',serif;font-size:2rem;color:white;margin-bottom:12px;">Photos &amp; Videos Locked</div>
+                <div style="font-size:1.2rem;color:#ffb3d9;max-width:340px;margin:0 auto 20px;">Unlock the <strong style="color:#ffd700;">📸 Photos &amp; Videos</strong> tab above to reveal our slideshow &amp; songs!</div>
+                <button onclick="attemptUnlock('photosvideos')" style="background:linear-gradient(135deg,#ff1493,#c41e3a);color:white;border:none;padding:16px 36px;border-radius:30px;font-size:1.2rem;cursor:pointer;font-family:'Cormorant Garamond',serif;box-shadow:0 6px 20px rgba(255,20,147,0.5);">🗝️ Unlock Now</button>
+            </div>        </div>
+
+        <!-- Photos & Videos Tab (Point 1) -->
+        <div id="photosvideos" class="tab-content">
             <!-- Photo Slideshow with Music -->
             <div class="memory-card" style="margin-top: 40px; background: linear-gradient(135deg, var(--deep-red), var(--primary-pink)); color: white;">
                 <div style="text-align: center;">
@@ -1073,10 +1058,10 @@
                         <div style="font-size: 3rem; margin-bottom: 10px;"><iframe 
                         width="20%" 
                         height="150" 
-                        src="https://www.youtube.com/embed/GFzvgUFFh0Q?start=45&end=95" 
+                        src="https://www.youtube.com/embed/GFzvgUFFh0Q?start=45&end=95&autoplay=1&mute=0&loop=1&playlist=GFzvgUFFh0Q" 
                         frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                        allowfullscreen
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen allow="autoplay"
                         style="border-radius: 15px; box-shadow: 0 5px 25px rgba(0,0,0,0.4);">
                     </iframe></div>
                         <h3 style="font-size: 1.8rem; margin-bottom: 10px; color: white;">Kannalane</h3>
@@ -1087,7 +1072,7 @@
                                     <!-- Photo Slideshow -->
                 <div class="slideshow-container" id="slideshowContainer">
                     <div class="slide">
-                        <img src="photo1.jpg" alt="Our Memory 1"
+                        <img src="https://i.ibb.co/placeholder1.jpg" alt="Our Memory 1"
                              onerror="this.style.display='none'; this.parentElement.querySelector('.slide-placeholder').style.display='flex';">
                         <div class="slide-placeholder" style="display:none; width:100%; height:500px; background:linear-gradient(135deg,#c41e3a,#ff1493); align-items:center; justify-content:center; flex-direction:column; border-radius:20px;">
                             <div style="font-size:6rem;">📸</div>
@@ -1260,11 +1245,21 @@
                     4. Replace it in the iframe src above!
                 </p>
             </div>
-            </div><!-- end section-photosvideos -->
         </div>
 
         <!-- First Chat Tab -->
         <div id="firstchat" class="tab-content">
+
+            <!-- Answer reveal box (Point 2) -->
+            <div id="answer-box-firstchat" style="display:none;background:linear-gradient(135deg,#fff0f8,#ffe4f0);border:3px solid var(--primary-pink);border-radius:20px;padding:28px 24px;margin-bottom:28px;animation:fadeInUp 0.6s ease-out;">
+                <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+                    <span style="font-size:2.5rem;">💬</span>
+                    <div>
+                        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--deep-red);font-weight:700;">Your Answer — First Word I Said</div>
+                        <div id="answer-text-firstchat" style="font-family:'Dancing Script',cursive;font-size:1.8rem;color:var(--primary-pink);margin-top:4px;"></div>
+                    </div>
+                </div>
+            </div>
             <div class="memory-card">
                 <div class="memory-icon">💬</div>
                 <h2 class="memory-title">The First Message</h2>
@@ -1287,6 +1282,17 @@
 
         <!-- First Meeting Tab -->
         <div id="firstmeet" class="tab-content">
+
+            <!-- Answer reveal box (Point 2) -->
+            <div id="answer-box-firstmeet" style="display:none;background:linear-gradient(135deg,#fff0f8,#ffe4f0);border:3px solid var(--primary-pink);border-radius:20px;padding:28px 24px;margin-bottom:28px;animation:fadeInUp 0.6s ease-out;">
+                <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+                    <span style="font-size:2.5rem;">👫</span>
+                    <div>
+                        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--deep-red);font-weight:700;">Your Answer — What I Was Wearing</div>
+                        <div id="answer-text-firstmeet" style="font-family:'Dancing Script',cursive;font-size:1.8rem;color:var(--primary-pink);margin-top:4px;"></div>
+                    </div>
+                </div>
+            </div>
             <div class="memory-card">
                 <div class="memory-icon">👫</div>
                 <h2 class="memory-title">The Day We Met</h2>
@@ -1310,6 +1316,17 @@
 
         <!-- First Call Tab -->
         <div id="firstcall" class="tab-content">
+
+            <!-- Answer reveal box (Point 2) -->
+            <div id="answer-box-firstcall" style="display:none;background:linear-gradient(135deg,#fff0f8,#ffe4f0);border:3px solid var(--primary-pink);border-radius:20px;padding:28px 24px;margin-bottom:28px;animation:fadeInUp 0.6s ease-out;">
+                <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+                    <span style="font-size:2.5rem;">📞</span>
+                    <div>
+                        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--deep-red);font-weight:700;">Your Answer — How Long Our Call Lasted</div>
+                        <div id="answer-text-firstcall" style="font-family:'Dancing Script',cursive;font-size:1.8rem;color:var(--primary-pink);margin-top:4px;"></div>
+                    </div>
+                </div>
+            </div>
             <div class="memory-card">
                 <div class="memory-icon">📞</div>
                 <h2 class="memory-title">Our First Phone Call</h2>
@@ -1331,6 +1348,17 @@
 
         <!-- First Date Tab -->
         <div id="firstdate" class="tab-content">
+
+            <!-- Answer reveal box (Point 2) -->
+            <div id="answer-box-firstdate" style="display:none;background:linear-gradient(135deg,#fff0f8,#ffe4f0);border:3px solid var(--primary-pink);border-radius:20px;padding:28px 24px;margin-bottom:28px;animation:fadeInUp 0.6s ease-out;">
+                <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+                    <span style="font-size:2.5rem;">🌹</span>
+                    <div>
+                        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--deep-red);font-weight:700;">Your Answer — Where We Went</div>
+                        <div id="answer-text-firstdate" style="font-family:'Dancing Script',cursive;font-size:1.8rem;color:var(--primary-pink);margin-top:4px;"></div>
+                    </div>
+                </div>
+            </div>
             <div class="memory-card">
                 <div class="memory-icon">🌹</div>
                 <h2 class="memory-title">Our First Date</h2>
@@ -1362,6 +1390,17 @@
 
         <!-- First Gift Tab -->
         <div id="firstgift" class="tab-content">
+
+            <!-- Answer reveal box (Point 2) -->
+            <div id="answer-box-firstgift" style="display:none;background:linear-gradient(135deg,#fff0f8,#ffe4f0);border:3px solid var(--primary-pink);border-radius:20px;padding:28px 24px;margin-bottom:28px;animation:fadeInUp 0.6s ease-out;">
+                <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+                    <span style="font-size:2.5rem;">🎁</span>
+                    <div>
+                        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--deep-red);font-weight:700;">Your Answer — The Gift I Gave You</div>
+                        <div id="answer-text-firstgift" style="font-family:'Dancing Script',cursive;font-size:1.8rem;color:var(--primary-pink);margin-top:4px;"></div>
+                    </div>
+                </div>
+            </div>
             <div class="memory-card">
                 <div class="memory-icon">🎁</div>
                 <h2 class="memory-title">The First Gift</h2>
@@ -1559,7 +1598,7 @@
             },
             loveletter: {
                 question: "What's my favorite thing about you? (One word) ❤️",
-                answer: "smile",
+                answer: "smile", // Change this (e.g., smile, eyes, laugh, kindness)
                 correctEmoji: "💌",
                 correctText: "You Know Me So Well! 😍",
                 correctSubtext: "Reading my final letter for you...",
@@ -1596,16 +1635,21 @@
         // Show quiz modal
         function showQuiz(tabName) {
             const quiz = quizData[tabName];
+            if (!quiz) {
+                console.error('No quiz data for tab:', tabName);
+                return;
+            }
             document.getElementById('quizQuestion').textContent = quiz.question;
             document.getElementById('quizInput').value = '';
             document.getElementById('quizModal').classList.add('active');
-            document.getElementById('quizInput').focus();
+            setTimeout(() => document.getElementById('quizInput').focus(), 100);
         }
 
         // Check answer
         function checkAnswer() {
             const userAnswer = document.getElementById('quizInput').value.trim().toLowerCase();
             const quiz = quizData[currentQuizTab];
+            if (!quiz) return;
             const correctAnswer = quiz.answer.toLowerCase();
 
             // Close quiz modal
@@ -1658,20 +1702,13 @@
                 const lock = btn.querySelector('.lock-icon');
                 if (lock) lock.textContent = '🔓';
             }
-            // Hide the photos/videos section overlay if unlocked
+            // If photosvideos: hide the locked hint on home tab
             if (tabName === 'photosvideos') {
-                const overlay = document.getElementById('photosvideos-lock-overlay');
-                if (overlay) {
-                    overlay.style.transition = 'opacity 0.5s';
-                    overlay.style.opacity = '0';
-                    setTimeout(() => overlay.style.display = 'none', 500);
-                }
-                document.getElementById('resultModal').classList.remove('active');
-                // Stay on home tab, just reveal section
-                burstHearts();
-                return;
+                const hint = document.getElementById('photosvideos-locked-hint');
+                if (hint) hint.style.display = 'none';
+                // Also trigger autoplay when tab revealed
+                setTimeout(() => tryAutoplaySlider(), 500);
             }
-            // Hide result and show tab
             document.getElementById('resultModal').classList.remove('active');
             showTab(tabName);
         }
@@ -1688,53 +1725,20 @@
                 : document.getElementById(`btn-${tabName}`);
             if (activeBtn) activeBtn.classList.add('active');
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            burstHearts(); // ← Point 1: heart burst on every tab switch
-        }
+            burstHearts(); // ← Point 4: heart burst on every tab
 
-        // ── Point 1: Heart burst animation ──
-        function burstHearts() {
-            const container = document.getElementById('heartBurst');
-            if (!container) return;
-            container.innerHTML = '';
-            container.style.display = 'block';
-            const emojis = ['❤️','💕','💖','💗','💓','💝','💘','🌹','✨','💫'];
-            const count = window.innerWidth < 480 ? 18 : 30;
-            for (let i = 0; i < count; i++) {
-                const el = document.createElement('div');
-                el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-                const size = Math.random() * 22 + 14;
-                const startX = Math.random() * 100;
-                const delay = Math.random() * 0.6;
-                const dur = Math.random() * 1.2 + 1.0;
-                el.style.cssText = `
-                    position:absolute;
-                    left:${startX}%;
-                    bottom:-60px;
-                    font-size:${size}px;
-                    opacity:0;
-                    animation: burstFloat ${dur}s ${delay}s ease-out forwards;
-                    pointer-events:none;
-                `;
-                container.appendChild(el);
+            // ── Point 2: reveal answer box if this tab was unlocked ──
+            const answerBoxTabs = ['firstchat','firstmeet','firstcall','firstdate','firstgift'];
+            if (answerBoxTabs.includes(tabName) && quizData[tabName]) {
+                const box = document.getElementById('answer-box-' + tabName);
+                const txt = document.getElementById('answer-text-' + tabName);
+                if (box && txt) {
+                    // Capitalise first letter for display
+                    const ans = quizData[tabName].answer;
+                    txt.textContent = '✨ ' + ans.charAt(0).toUpperCase() + ans.slice(1);
+                    box.style.display = 'block';
+                }
             }
-            // Inject keyframe once
-            if (!document.getElementById('burstStyle')) {
-                const s = document.createElement('style');
-                s.id = 'burstStyle';
-                s.textContent = `
-                    @keyframes burstFloat {
-                        0%   { transform: translateY(0)   rotate(0deg);   opacity:0; }
-                        15%  { opacity: 1; }
-                        80%  { opacity: 0.7; }
-                        100% { transform: translateY(-85vh) rotate(360deg); opacity:0; }
-                    }
-                `;
-                document.head.appendChild(s);
-            }
-            setTimeout(() => {
-                container.style.display = 'none';
-                container.innerHTML = '';
-            }, 2800);
         }
 
         // Allow Enter key to submit quiz
@@ -1751,7 +1755,7 @@
             const container = document.getElementById('floatingHearts');
             const hearts = ['❤️', '💕', '💖', '💗', '💓', '💝', '💘'];
             
-            for (let i = 0; i < 12; i++) {
+            for (let i = 0; i < 20; i++) {
                 const heart = document.createElement('div');
                 heart.className = 'heart';
                 heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
@@ -1766,7 +1770,7 @@
         function createSparkles() {
             const container = document.getElementById('sparkles');
             
-            for (let i = 0; i < 15; i++) {
+            for (let i = 0; i < 30; i++) {
                 const sparkle = document.createElement('div');
                 sparkle.className = 'sparkle';
                 sparkle.style.left = Math.random() * 100 + '%';
@@ -1821,7 +1825,7 @@
             updateCounters();
             setTimeout(animateCounters, 500);
             startSlideshow();
-            setTimeout(burstHearts, 300); // ← burst on first load
+            setTimeout(() => burstHearts(true), 400);
         });
 
         setInterval(updateCounters, 60000);
@@ -1912,6 +1916,90 @@
             const indicators = document.querySelectorAll('.indicator');
             indicators.forEach((dot, i) => {
                 dot.classList.toggle('active', i === index);
+            });
+        }
+
+        // ── POINT 4: Full-screen heart burst ──
+        function burstHearts(isPageLoad) {
+            const container = document.getElementById('heartBurst');
+            if (!container) return;
+            container.innerHTML = '';
+            container.style.display = 'block';
+            const emojis = ['❤️','💕','💖','💗','💓','💝','💘','🌹','✨','💫','🌸','🥰'];
+            // Page load = more hearts from ALL positions; tab switch = fewer, from bottom
+            const isLoad = isPageLoad === true;
+            const count  = isLoad ? (window.innerWidth < 480 ? 40 : 70) : (window.innerWidth < 480 ? 18 : 32);
+
+            if (!document.getElementById('burstStyle')) {
+                const s = document.createElement('style');
+                s.id = 'burstStyle';
+                s.textContent = `
+                    @keyframes burstUp {
+                        0%   { transform:translateY(0) rotate(0deg) scale(0.5); opacity:0; }
+                        12%  { opacity:1; transform:translateY(-15vh) rotate(60deg) scale(1.1); }
+                        85%  { opacity:0.6; }
+                        100% { transform:translateY(-105vh) rotate(400deg) scale(0.8); opacity:0; }
+                    }
+                    @keyframes burstRain {
+                        0%   { transform:translateY(-20px) rotate(0deg) scale(0.6); opacity:0; }
+                        10%  { opacity:1; }
+                        90%  { opacity:0.5; }
+                        100% { transform:translateY(110vh) rotate(300deg) scale(0.9); opacity:0; }
+                    }
+                    @keyframes burstDrift {
+                        0%   { transform:translate(0,0) rotate(0deg); opacity:0; }
+                        10%  { opacity:1; }
+                        100% { transform:translate(var(--dx),var(--dy)) rotate(720deg); opacity:0; }
+                    }
+                `;
+                document.head.appendChild(s);
+            }
+
+            for (let i = 0; i < count; i++) {
+                const el = document.createElement('div');
+                el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                const size  = Math.random() * 28 + 14;
+                const delay = Math.random() * (isLoad ? 1.4 : 0.6);
+                const dur   = Math.random() * 1.8 + 1.2;
+
+                let styleStr = '';
+                if (isLoad) {
+                    // Full screen: hearts spawn from bottom AND sides AND rain from top
+                    const zone = Math.floor(Math.random() * 3);
+                    if (zone === 0) {
+                        // Rise from bottom
+                        styleStr = `position:absolute;left:${Math.random()*100}%;bottom:-40px;font-size:${size}px;animation:burstUp ${dur}s ${delay}s ease-out forwards;`;
+                    } else if (zone === 1) {
+                        // Rain from top
+                        styleStr = `position:absolute;left:${Math.random()*100}%;top:-40px;font-size:${size}px;animation:burstRain ${dur}s ${delay}s ease-in forwards;`;
+                    } else {
+                        // Drift from centre
+                        const dx = (Math.random()-0.5)*200, dy = (Math.random()-0.5)*180;
+                        styleStr = `position:absolute;left:${Math.random()*80+10}%;top:${Math.random()*60+10}%;font-size:${size}px;--dx:${dx}px;--dy:${dy}px;animation:burstDrift ${dur}s ${delay}s ease-out forwards;`;
+                    }
+                } else {
+                    // Tab switch: rise from bottom only
+                    styleStr = `position:absolute;left:${Math.random()*100}%;bottom:-40px;font-size:${size}px;animation:burstUp ${dur}s ${delay}s ease-out forwards;`;
+                }
+                el.style.cssText = styleStr + 'pointer-events:none;opacity:0;';
+                container.appendChild(el);
+            }
+
+            const clearAfter = isLoad ? 4500 : 2800;
+            setTimeout(() => { container.style.display='none'; container.innerHTML=''; }, clearAfter);
+        }
+
+        // ── POINT 3: Try autoplay when photosvideos unlocked ──
+        function tryAutoplaySlider() {
+            // Reload the YT iframe src to trigger autoplay (bypasses browser block for user-gesture)
+            const iframes = document.querySelectorAll('#photosvideos iframe');
+            iframes.forEach(f => {
+                const src = f.src;
+                if (src && !src.includes('autoplay=1')) {
+                    f.src = src.replace('?','?autoplay=1&').replace('autoplay=1&autoplay=1','autoplay=1');
+                } else if (src) {
+                    f.src = src; // reload to trigger
+                }
             });
         }
     </script>
