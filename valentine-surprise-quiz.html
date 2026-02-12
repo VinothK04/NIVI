@@ -930,11 +930,88 @@
         audio::-webkit-media-controls-panel {
             background: linear-gradient(135deg, var(--soft-pink), var(--primary-pink));
         }
+
+        /* ── Radio Option Buttons ── */
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 20px;
+            border: 2.5px solid var(--soft-pink);
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            background: white;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            color: #2d1b1b;
+            user-select: none;
+        }
+        .radio-option:hover {
+            border-color: var(--primary-pink);
+            background: var(--light-pink);
+            transform: translateX(4px);
+        }
+        .radio-option.selected {
+            border-color: var(--primary-pink);
+            background: linear-gradient(135deg, #fff0f8, #ffe4f0);
+            box-shadow: 0 4px 14px rgba(255,20,147,0.2);
+        }
+        .radio-option.correct-reveal {
+            border-color: #4CAF50;
+            background: #f0fff4;
+            animation: correctPulse 0.5s ease;
+        }
+        .radio-option.wrong-reveal {
+            border-color: #e53935;
+            background: #fff5f5;
+        }
+        @keyframes correctPulse {
+            0%,100% { transform: scale(1); }
+            50%      { transform: scale(1.03); }
+        }
+        .radio-circle {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 2.5px solid var(--soft-pink);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s;
+        }
+        .radio-option.selected .radio-circle {
+            border-color: var(--primary-pink);
+            background: var(--primary-pink);
+        }
+        .radio-option.selected .radio-circle::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: white;
+        }
     </style>
 </head>
 <body>
     <!-- Heart Burst Overlay -->
     <div id="heartBurst" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9000;overflow:hidden;"></div>
+    <!-- Correct Answer Toast (green pop-up on tab open) -->
+    <div id="correctToast" style="display:none;position:fixed;top:80px;left:50%;transform:translateX(-50%);z-index:9999;pointer-events:none;text-align:center;">
+        <div id="correctToastInner" style="
+            background:linear-gradient(135deg,#1a7a1a,#27ae60);
+            color:white;
+            padding:18px 36px;
+            border-radius:50px;
+            box-shadow:0 8px 32px rgba(39,174,96,0.5);
+            font-family:'Playfair Display',serif;
+            font-size:1.3rem;
+            font-weight:700;
+            white-space:nowrap;
+        "></div>
+    </div>
+
     <!-- Floating Hearts Background -->
     <div class="floating-hearts" id="floatingHearts"></div>
 
@@ -964,9 +1041,38 @@
     <div class="quiz-modal" id="quizModal">
         <div class="quiz-content">
             <h2 class="quiz-title" id="quizTitle">💝 Answer to Unlock</h2>
+
+            <!-- attempt counter -->
+            <div id="attemptBar" style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:16px;">
+                <span style="font-size:0.95rem;color:#c41e3a;font-weight:600;">Attempts:</span>
+                <span id="dot1" style="width:14px;height:14px;border-radius:50%;border:2px solid #ff1493;background:white;display:inline-block;transition:background 0.3s;"></span>
+                <span id="dot2" style="width:14px;height:14px;border-radius:50%;border:2px solid #ff1493;background:white;display:inline-block;transition:background 0.3s;"></span>
+                <span id="dot3" style="width:14px;height:14px;border-radius:50%;border:2px solid #ff1493;background:white;display:inline-block;transition:background 0.3s;"></span>
+            </div>
+
             <p class="quiz-question" id="quizQuestion">Question will appear here...</p>
-            <input type="text" class="quiz-input" id="quizInput" placeholder="Type your answer here...">
-            <button class="quiz-btn" onclick="checkAnswer()">Submit Answer 💕</button>
+
+            <!-- Radio options -->
+            <div id="radioOptions" style="display:flex;flex-direction:column;gap:12px;margin-bottom:24px;"></div>
+
+            <!-- Reveal hint (shows after 3 fails) -->
+            <div id="revealHint" style="display:none;background:linear-gradient(135deg,#fff0f8,#ffe4f0);border:2px dashed #ff1493;border-radius:14px;padding:16px;margin-bottom:16px;text-align:center;">
+                <div style="font-size:1rem;color:#c41e3a;margin-bottom:8px;font-weight:600;">💡 Need a hint?</div>
+                <div id="revealAnsText" style="font-family:'Dancing Script',cursive;font-size:1.6rem;color:#ff1493;display:none;"></div>
+                <button onclick="revealAnswer()" id="revealBtn" style="background:linear-gradient(135deg,#ff1493,#c41e3a);color:white;border:none;padding:10px 28px;border-radius:20px;font-size:1rem;cursor:pointer;font-family:'Cormorant Garamond',serif;">
+                    Show Answer 👀
+                </button>
+            </div>
+
+            <button class="quiz-btn" id="submitQuizBtn" onclick="checkAnswer()" disabled
+                style="opacity:0.5;cursor:not-allowed;transition:all 0.3s;">
+                Select an option first 💕
+            </button>
+
+            <!-- Close / cancel -->
+            <button onclick="closeQuiz()" style="width:100%;margin-top:10px;padding:12px;background:transparent;border:2px solid #ddd;border-radius:12px;font-size:1rem;cursor:pointer;color:#999;font-family:'Cormorant Garamond',serif;">
+                ✕ Close
+            </button>
         </div>
     </div>
 
@@ -1535,10 +1641,14 @@
 
     <script>
         // Quiz Data - CUSTOMIZE THESE QUESTIONS AND ANSWERS!
+        // ── QUIZ DATA ──
+        // For each tab: set answer = correct option text (must match one of the options exactly)
+        // options: array of 4 choices shown as radio buttons
         const quizData = {
             firstchat: {
                 question: "What was the first word I said to you in our very first chat? 💬",
-                answer: "hey", // Change this to the actual first word (case insensitive)
+                answer: "Hey",          // ← Change to YOUR real first word
+                options: ["Hey", "Hi", "Hello", "What's up"],  // ← Set 4 options (answer must be one of them)
                 correctEmoji: "💕",
                 correctText: "Perfect! You Remember! 😍",
                 correctSubtext: "Our first conversation was magical...",
@@ -1548,7 +1658,8 @@
             },
             firstmeet: {
                 question: "What color was I wearing when we first met in person? 👕",
-                answer: "blue", // Change this
+                answer: "Blue",         // ← Change
+                options: ["Blue", "Red", "Black", "White"],
                 correctEmoji: "🥰",
                 correctText: "Yes! You noticed! 💙",
                 correctSubtext: "That day was unforgettable...",
@@ -1557,8 +1668,9 @@
                 wrongSubtext: "Close your eyes and picture that moment... 💭"
             },
             firstcall: {
-                question: "How many hours did our first phone call last? (Just the number) ⏰",
-                answer: "2", // Change this to actual number
+                question: "How many hours did our first phone call last? ⏰",
+                answer: "2 hours",      // ← Change
+                options: ["1 hour", "2 hours", "3 hours", "4 hours"],
                 correctEmoji: "📞",
                 correctText: "Exactly Right! ⏱️",
                 correctSubtext: "Those were the best hours ever...",
@@ -1568,7 +1680,8 @@
             },
             firstdate: {
                 question: "Where did we go on our first date? 🌹",
-                answer: "restaurant", // Change this (e.g., park, beach, cinema, restaurant name)
+                answer: "Restaurant",   // ← Change
+                options: ["Restaurant", "Cinema", "Beach", "Park"],
                 correctEmoji: "🌟",
                 correctText: "That's Right! 🎉",
                 correctSubtext: "What a perfect day that was...",
@@ -1578,7 +1691,8 @@
             },
             firstgift: {
                 question: "What was the first gift I gave you? 🎁",
-                answer: "flowers", // Change this (e.g., teddy bear, necklace, etc.)
+                answer: "Flowers",      // ← Change
+                options: ["Flowers", "Teddy Bear", "Necklace", "Chocolates"],
                 correctEmoji: "🎀",
                 correctText: "You Remembered! 🎁",
                 correctSubtext: "Your smile when you opened it...",
@@ -1588,7 +1702,8 @@
             },
             timeline: {
                 question: "In which month did we start talking? 📅",
-                answer: "january", // Change this
+                answer: "January",      // ← Change
+                options: ["January", "February", "March", "April"],
                 correctEmoji: "⏰",
                 correctText: "Perfect Memory! 📆",
                 correctSubtext: "The beginning of our forever...",
@@ -1597,8 +1712,9 @@
                 wrongSubtext: "Think about when our story began... 💭"
             },
             loveletter: {
-                question: "What's my favorite thing about you? (One word) ❤️",
-                answer: "smile", // Change this (e.g., smile, eyes, laugh, kindness)
+                question: "What's my favorite thing about you? ❤️",
+                answer: "Your Smile",   // ← Change
+                options: ["Your Smile", "Your Eyes", "Your Laugh", "Your Heart"],
                 correctEmoji: "💌",
                 correctText: "You Know Me So Well! 😍",
                 correctSubtext: "Reading my final letter for you...",
@@ -1608,7 +1724,8 @@
             },
             photosvideos: {
                 question: "What is the pet name I call you? 💕",
-                answer: "love", // ← Change to YOUR pet name for her
+                answer: "Love",         // ← Change to YOUR pet name for her
+                options: ["Love", "Babe", "Sweetheart", "Angel"],
                 correctEmoji: "📸",
                 correctText: "Unlocking Our Memories! 🎉",
                 correctSubtext: "Photos & videos of us together...",
@@ -1618,99 +1735,258 @@
             }
         };
 
-        // Track unlocked tabs
-        let unlockedTabs = new Set(['home']);
-        let currentQuizTab = null;
+        // ── Quiz state ──
+        let unlockedTabs    = new Set(['home']);
+        let currentQuizTab  = null;
+        let selectedOption  = null;   // currently selected radio value
+        let failCounts      = {};     // { tabName: number }
 
-        // Attempt to unlock a tab
+        // ── Open quiz for a tab ──
         function attemptUnlock(tabName) {
             if (unlockedTabs.has(tabName)) {
                 showTab(tabName);
-            } else {
-                currentQuizTab = tabName;
-                showQuiz(tabName);
-            }
-        }
-
-        // Show quiz modal
-        function showQuiz(tabName) {
-            const quiz = quizData[tabName];
-            if (!quiz) {
-                console.error('No quiz data for tab:', tabName);
                 return;
             }
-            document.getElementById('quizQuestion').textContent = quiz.question;
-            document.getElementById('quizInput').value = '';
-            document.getElementById('quizModal').classList.add('active');
-            setTimeout(() => document.getElementById('quizInput').focus(), 100);
+            currentQuizTab = tabName;
+            selectedOption = null;
+            showQuiz(tabName);
         }
 
-        // Check answer
-        function checkAnswer() {
-            const userAnswer = document.getElementById('quizInput').value.trim().toLowerCase();
+        // ── Build & show quiz modal ──
+        function showQuiz(tabName) {
+            const quiz = quizData[tabName];
+            if (!quiz) { console.error('No quiz data:', tabName); return; }
+
+            // Question text
+            document.getElementById('quizQuestion').textContent = quiz.question;
+
+            // Reset submit button
+            const submitBtn = document.getElementById('submitQuizBtn');
+            submitBtn.disabled = true;
+            submitBtn.style.opacity = '0.5';
+            submitBtn.style.cursor = 'not-allowed';
+            submitBtn.textContent = 'Select an option first 💕';
+
+            // Build radio options
+            const container = document.getElementById('radioOptions');
+            container.innerHTML = '';
+            (quiz.options || []).forEach((opt, idx) => {
+                const div = document.createElement('div');
+                div.className = 'radio-option';
+                div.id = 'opt_' + idx;
+                div.innerHTML = `<span class="radio-circle" id="rc_${idx}"></span><span>${opt}</span>`;
+                div.onclick = () => selectOption(opt, idx, quiz.options.length);
+                container.appendChild(div);
+            });
+
+            // Attempt dots
+            const fails = failCounts[tabName] || 0;
+            ['dot1','dot2','dot3'].forEach((id, i) => {
+                const dot = document.getElementById(id);
+                dot.style.background = i < fails ? '#ff1493' : 'white';
+            });
+
+            // Reveal hint: show after 3 fails
+            const hint = document.getElementById('revealHint');
+            const revBtn = document.getElementById('revealBtn');
+            const revTxt = document.getElementById('revealAnsText');
+            if (fails >= 3) {
+                hint.style.display = 'block';
+                revBtn.style.display = 'inline-block';
+                revTxt.style.display = 'none';
+                revTxt.textContent = '✨ ' + quiz.answer;
+            } else {
+                hint.style.display = 'none';
+                revTxt.style.display = 'none';
+            }
+
+            document.getElementById('quizModal').classList.add('active');
+        }
+
+        // ── Select a radio option ──
+        function selectOption(value, idx, total) {
+            selectedOption = value;
+            // Update UI: deselect all, select clicked
+            for (let i = 0; i < total; i++) {
+                const el = document.getElementById('opt_' + i);
+                if (el) {
+                    el.classList.toggle('selected', i === idx);
+                }
+            }
+            // Enable submit
+            const submitBtn = document.getElementById('submitQuizBtn');
+            submitBtn.disabled = false;
+            submitBtn.style.opacity = '1';
+            submitBtn.style.cursor = 'pointer';
+            submitBtn.textContent = 'Submit Answer 💕';
+        }
+
+        // ── Reveal the correct answer ──
+        function revealAnswer() {
             const quiz = quizData[currentQuizTab];
             if (!quiz) return;
-            const correctAnswer = quiz.answer.toLowerCase();
+            const revTxt = document.getElementById('revealAnsText');
+            const revBtn = document.getElementById('revealBtn');
+            revTxt.style.display = 'block';
+            revTxt.textContent   = '✨ ' + quiz.answer;
+            revBtn.style.display = 'none';
 
-            // Close quiz modal
+            // Highlight correct option AND auto-select it so she can submit
+            let correctIdx = -1;
+            (quiz.options || []).forEach((opt, i) => {
+                const el = document.getElementById('opt_' + i);
+                if (el) {
+                    el.classList.remove('selected','wrong-reveal','correct-reveal');
+                    if (opt === quiz.answer) {
+                        el.classList.add('correct-reveal');
+                        correctIdx = i;
+                    }
+                }
+            });
+            // Auto-select so submit button activates
+            if (correctIdx >= 0) selectOption(quiz.answer, correctIdx, quiz.options.length);
+        }
+
+        // ── Close quiz without answering ──
+        function closeQuiz() {
             document.getElementById('quizModal').classList.remove('active');
+            selectedOption = null;
+        }
 
-            if (userAnswer === correctAnswer) {
-                // Correct answer!
-                showResult(true, quiz);
+        // ── Check selected radio answer ──
+        function checkAnswer() {
+            if (!selectedOption) return;
+            const quiz = quizData[currentQuizTab];
+            if (!quiz) return;
+
+            const isCorrect = selectedOption === quiz.answer;
+
+            // Flash correct/wrong on the options before closing
+            (quiz.options || []).forEach((opt, i) => {
+                const el = document.getElementById('opt_' + i);
+                if (!el) return;
+                el.classList.remove('selected');
+                if (opt === quiz.answer)        el.classList.add('correct-reveal');
+                else if (opt === selectedOption) el.classList.add('wrong-reveal');
+            });
+
+            if (isCorrect) {
                 setTimeout(() => {
-                    unlockTab(currentQuizTab);
-                }, 3000);
+                    document.getElementById('quizModal').classList.remove('active');
+                    showResult(true, quiz);
+                    setTimeout(() => unlockTab(currentQuizTab), 3000);
+                }, 600);
             } else {
-                // Wrong answer
-                showResult(false, quiz);
+                // Increment fail count
+                failCounts[currentQuizTab] = (failCounts[currentQuizTab] || 0) + 1;
+                const fails = failCounts[currentQuizTab];
+
+                // Update dots immediately
+                ['dot1','dot2','dot3'].forEach((id, i) => {
+                    document.getElementById(id).style.background = i < fails ? '#ff1493' : 'white';
+                });
+
+                // Show reveal hint after 3rd fail
+                if (fails >= 3) {
+                    document.getElementById('revealHint').style.display = 'block';
+                    document.getElementById('revealBtn').style.display = 'inline-block';
+                    document.getElementById('revealAnsText').style.display = 'none';
+                    document.getElementById('revealAnsText').textContent = '✨ ' + quiz.answer;
+                }
+
                 setTimeout(() => {
-                    document.getElementById('resultModal').classList.remove('active');
-                }, 3000);
+                    showResult(false, quiz);
+                    // Reopen quiz after wrong-result animation
+                    setTimeout(() => {
+                        document.getElementById('resultModal').classList.remove('active');
+                        selectedOption = null;
+                        showQuiz(currentQuizTab);
+                    }, 3000);
+                }, 600);
             }
         }
 
-        // Show result animation
+        // ── Show result animation ──
         function showResult(isCorrect, quiz) {
-            const resultModal = document.getElementById('resultModal');
-            const resultImage = document.getElementById('resultImage');
-            const resultText = document.getElementById('resultText');
+            const resultModal   = document.getElementById('resultModal');
+            const resultImage   = document.getElementById('resultImage');
+            const resultText    = document.getElementById('resultText');
             const resultSubtext = document.getElementById('resultSubtext');
+            const resultContent = resultModal.querySelector('.result-content');
 
             if (isCorrect) {
-                resultImage.textContent = quiz.correctEmoji;
-                resultText.textContent = quiz.correctText;
+                resultImage.textContent   = quiz.correctEmoji;
+                resultText.textContent    = quiz.correctText;
                 resultSubtext.textContent = quiz.correctSubtext;
-                resultImage.className = 'result-image correct-animation';
+                resultImage.className     = 'result-image correct-animation';
+                // ── Green correct answer pop-up banner ──
+                let banner = document.getElementById('correctBanner');
+                if (!banner) {
+                    banner = document.createElement('div');
+                    banner.id = 'correctBanner';
+                    resultContent.appendChild(banner);
+                }
+                banner.innerHTML = `
+                    <div style="
+                        background: linear-gradient(135deg,#1a7a1a,#2ecc2e);
+                        border-radius: 20px;
+                        padding: 18px 32px;
+                        margin-top: 24px;
+                        display: inline-block;
+                        animation: correctBannerIn 0.5s 0.3s ease-out both;
+                    ">
+                        <div style="font-size:2rem;margin-bottom:6px;">✅</div>
+                        <div style="font-family:'Playfair Display',serif;font-size:1.4rem;color:white;font-weight:700;">
+                            Correct Answer!
+                        </div>
+                        <div style="font-family:'Dancing Script',cursive;font-size:1.6rem;color:#b3ffb3;margin-top:4px;">
+                            ${quiz.answer}
+                        </div>
+                    </div>`;
+                // Inject banner keyframe once
+                if (!document.getElementById('bannerStyle')) {
+                    const s = document.createElement('style');
+                    s.id = 'bannerStyle';
+                    s.textContent = `
+                        @keyframes correctBannerIn {
+                            from { transform: scale(0.5) translateY(30px); opacity: 0; }
+                            to   { transform: scale(1) translateY(0);      opacity: 1; }
+                        }`;
+                    document.head.appendChild(s);
+                }
             } else {
-                resultImage.textContent = quiz.wrongEmoji;
-                resultText.textContent = quiz.wrongText;
+                resultImage.textContent   = quiz.wrongEmoji;
+                resultText.textContent    = quiz.wrongText;
                 resultSubtext.textContent = quiz.wrongSubtext;
-                resultImage.className = 'result-image wrong-animation';
+                resultImage.className     = 'result-image wrong-animation';
+                // Remove any previous banner
+                const old = document.getElementById('correctBanner');
+                if (old) old.remove();
             }
-
             resultModal.classList.add('active');
         }
 
-        // Unlock tab
+        // ── Unlock tab after correct answer ──
         function unlockTab(tabName) {
             unlockedTabs.add(tabName);
-            const btn = document.getElementById(`btn-${tabName}`);
+            failCounts[tabName] = 0; // reset fails
+            const btn = document.getElementById('btn-' + tabName);
             if (btn) {
                 btn.classList.remove('locked');
                 btn.classList.add('unlocked');
                 const lock = btn.querySelector('.lock-icon');
                 if (lock) lock.textContent = '🔓';
             }
-            // If photosvideos: hide the locked hint on home tab
             if (tabName === 'photosvideos') {
                 const hint = document.getElementById('photosvideos-locked-hint');
                 if (hint) hint.style.display = 'none';
-                // Also trigger autoplay when tab revealed
                 setTimeout(() => tryAutoplaySlider(), 500);
             }
             document.getElementById('resultModal').classList.remove('active');
             showTab(tabName);
+            // ── Green toast on the new tab ──
+            const q = quizData[tabName];
+            if (q) setTimeout(() => showCorrectToast(q.answer), 400);
         }
 
         // Show tab
@@ -1741,14 +2017,7 @@
             }
         }
 
-        // Allow Enter key to submit quiz
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('quizInput').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    checkAnswer();
-                }
-            });
-        });
+        // (text input removed - using radio buttons)
 
         // Generate floating hearts
         function createFloatingHearts() {
@@ -2001,6 +2270,31 @@
                     f.src = src; // reload to trigger
                 }
             });
+        }
+
+        // ── Green correct-answer toast on tab open ──
+        function showCorrectToast(answer) {
+            const toast = document.getElementById('correctToast');
+            const inner = document.getElementById('correctToastInner');
+            if (!toast || !inner) return;
+            inner.innerHTML = '✅ &nbsp;Correct! &nbsp;<span style="font-family:'Dancing Script',cursive;font-size:1.5rem;color:#b3ffb3;">' + answer + '</span>';
+            toast.style.display = 'block';
+            toast.style.animation = 'none';
+            // Inject toast keyframe once
+            if (!document.getElementById('toastStyle')) {
+                const s = document.createElement('style');
+                s.id = 'toastStyle';
+                s.textContent = `
+                    @keyframes toastSlide {
+                        0%   { opacity:0; transform:translateX(-50%) translateY(-30px) scale(0.8); }
+                        15%  { opacity:1; transform:translateX(-50%) translateY(0)     scale(1.05); }
+                        80%  { opacity:1; transform:translateX(-50%) translateY(0)     scale(1);    }
+                        100% { opacity:0; transform:translateX(-50%) translateY(-20px) scale(0.95); }
+                    }`;
+                document.head.appendChild(s);
+            }
+            toast.style.animation = 'toastSlide 3s ease-out forwards';
+            setTimeout(() => { toast.style.display = 'none'; toast.style.animation = 'none'; }, 3100);
         }
     </script>
 </body>
